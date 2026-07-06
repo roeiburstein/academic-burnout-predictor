@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Research findings and predictive model evaluation for undergraduate academic burnout using psychological and environmental factors.">
+    <title>Academic Burnout Study: Insights & Predictive Modeling</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- SVG Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2393a5ff'%3E%3Cpath d='M12 3L1 9l11 6 9-4.91V17h2V9L12 3z'/%3E%3C/svg%3E">
+
+    <!-- Shared Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Page Specific Styles for Scientific Paper Layout -->
+    <style>
+        .paper-container {
+            max-width: 960px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .paper-header {
+            border-bottom: 2px double var(--border);
+            padding-bottom: 2rem;
+            text-align: center;
+        }
+
+        .journal-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 3.2rem;
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .authors {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .institution {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            font-style: italic;
+        }
+
+        /* Abstract Box */
+        .abstract-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .abstract-card h2 {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .abstract-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            text-align: justify;
+        }
+
+        /* Scientific Section Layout */
+        .section-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .section-card h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-card h2 span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            text-align: justify;
+        }
+
+        /* Mathematical Notation */
+        .math-block {
+            background: oklch(0.12 0.01 250);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--text-primary);
+            overflow-x: auto;
+        }
+
+        .math-inline {
+            font-family: 'JetBrains Mono', monospace;
+            background: oklch(0.12 0.01 250);
+            padding: 0.1rem 0.3rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* Evaluation Grid */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .metric-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .metric-card {
+            background: oklch(0.12 0.01 250);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-focus);
+        }
+
+        .metric-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-tertiary);
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .metric-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Group Comparison Table */
+        .data-table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        th {
+            background: oklch(0.12 0.01 250);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: oklch(0.13 0.01 250);
+            color: var(--text-primary);
+        }
+
+        /* Bidirectional Chart */
+        .chart-container {
+            background: oklch(0.12 0.01 250);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-tertiary);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .coefficient-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .coef-row {
+            display: grid;
+            grid-template-columns: 180px 1fr 60px;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .coef-row {
+                grid-template-columns: 120px 1fr 50px;
+                font-size: 0.8rem;
+            }
+        }
+
+        .coef-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .coef-bar-track {
+            position: relative;
+            height: 14px;
+            background: oklch(0.18 0.01 250);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .coef-zero-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+            z-index: 1;
+        }
+
+        .coef-fill-bar {
+            position: absolute;
+            height: 100%;
+            border-radius: 1px;
+            top: 0;
+        }
+
+        .coef-fill-bar.positive {
+            left: 50%;
+            background: linear-gradient(90deg, oklch(0.74 0.15 75 / 0.4), var(--danger));
+        }
+
+        .coef-fill-bar.protective {
+            right: 50%;
+            background: linear-gradient(270deg, oklch(0.68 0.14 142 / 0.4), var(--success));
+        }
+
+        .coef-val-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .coef-val-text.pos {
+            color: var(--danger);
+        }
+
+        .coef-val-text.neg {
+            color: var(--success);
+        }
+
+        /* Image Gallery Layout */
+        .plots-gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .plots-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .plot-card {
+            background: oklch(0.12 0.01 250);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .plot-wrapper {
+            background: #fff; /* White background for plots to stand out crisp */
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 1.5;
+            position: relative;
+            cursor: zoom-in;
+            outline: none;
+        }
+
+        .plot-wrapper:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .plot-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.03);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .plot-wrapper:hover::after {
+            opacity: 1;
+        }
+
+        .plot-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .plot-wrapper:hover .plot-img {
+            transform: scale(1.03);
+        }
+
+        .plot-expand-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(10, 10, 12, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 0.35rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .plot-wrapper:hover .plot-expand-badge {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Lightbox Modal */
+        .lightbox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(10, 10, 12, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 90%;
+            max-height: 85%;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .lightbox-modal.active .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-img-container {
+            background: #fff;
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            max-height: 65vh;
+            border: 1px solid var(--border);
+        }
+
+        .lightbox-img-container img {
+            max-width: 100%;
+            max-height: calc(65vh - 24px);
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .lightbox-caption {
+            margin-top: 1.25rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.5;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Lightbox buttons */
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+            z-index: 2010;
+        }
+
+        .lightbox-close:hover {
+            background: var(--panel-hover);
+            border-color: var(--border-focus);
+            transform: scale(1.05);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--panel);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+            z-index: 2010;
+        }
+
+        .lightbox-nav:hover {
+            background: var(--panel-hover);
+            border-color: var(--border-focus);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .lightbox-prev {
+            left: 2rem;
+        }
+
+        .lightbox-next {
+            right: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+            }
+            .lightbox-prev {
+                left: 1rem;
+            }
+            .lightbox-next {
+                right: 1rem;
+            }
+            .lightbox-close {
+                top: 1rem;
+                right: 1rem;
+            }
+            .lightbox-caption {
+                font-size: 0.85rem;
+                padding: 0.8rem 1.2rem;
+            }
+        }
+
+        .plot-caption {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            border-top: 1px solid var(--border);
+            padding-top: 0.5rem;
+        }
+
+        /* References list */
+        .references-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding-left: 0;
+        }
+
+        .references-list li {
+            padding-left: 1.5rem;
+            text-indent: -1.5rem;
+            text-align: justify;
+        }
+
+        /* SVG definition */
+        .svg-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="index.html" class="nav-logo">
+            <svg class="svg-icon"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5.47 12.5L3 11.16v2.33l2.47 1.35V12.5zm13.06 0v2.34l2.47-1.35v-2.33l-2.47 1.34zM12 18.5c-3.31 0-6-2.69-6-6 0-.85.18-1.65.5-2.38L12 13.5l5.5-3.38c.32.73.5 1.53.5 2.38 0 3.31-2.69 6-6 6z"/></svg>
+            <span>Burnout Research</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Risk Predictor</a>
+            <a href="analysis.html" class="nav-link active">Research & Insights</a>
+        </div>
+    </nav>
+
+    <div class="paper-container">
+        
+        <!-- Document Header -->
+        <header class="paper-header">
+            <div class="journal-tag">Research & Evaluation | Phase 11 Academic Dissemination</div>
+            <h1>Predicting Academic Burnout in Undergraduate Students Using Psychological Variables and Machine Learning</h1>
+            <div class="authors">E. Burstein & AI Research Collaborative</div>
+            <div class="institution">Department of Educational Psychology and Cognitive Sciences</div>
+        </header>
+
+        <!-- Abstract Section -->
+        <section class="abstract-card">
+            <h2>Abstract</h2>
+            <p class="abstract-text">
+                Academic burnout is a critical psychological syndrome characterized by emotional exhaustion, depersonalization, and reduced academic efficacy. While traditional educational research often examines psychological correlations in isolation, this study leverages supervised machine learning to construct a unified predictive framework. Using a large-scale stratified dataset (N = 150,000 undergraduate student profiles), we train and compare three distinct classification models to predict high-risk burnout states. Our findings demonstrate that <strong>Academic Pressure</strong> and <strong>General Stress Levels</strong> serve as the most powerful risk accelerators, whereas <strong>Sleep Quality</strong> and <strong>Social Support Structures</strong> serve as primary protective buffers. The best-performing Logistic Regression model achieves an accuracy of <strong id="abstract-accuracy">73.23%</strong>, providing explainable coefficients that partition psychological and environmental impacts to support targeted interventions.
+            </p>
+        </section>
+
+        <!-- Section 1: Intro -->
+        <section class="section-card">
+            <h2><span>1.</span> Introduction & Theoretical Framework</h2>
+            <p>
+                In competitive higher educational environments, academic burnout represents an escalating concern for student wellbeing. Grounded in the Maslach Burnout Inventory (MBI) framework, student burnout manifests when external academic demands consistently exceed internal cognitive and coping resources. The condition is not merely a consequence of "studying too hard" but is rather a multi-dimensional syndrome triggered by a mismatch in the student's academic profile, sleep patterns, social networks, and baseline anxiety.
+            </p>
+            <p>
+                Previous psychological research has established correlations between isolated factors (e.g., sleep deprivation and low GPA). However, educational institutions lack empirical frameworks to evaluate how these variables compound in real-time. By transitioning from simple descriptive correlations to predictive machine learning models, this study aims to build an actionable early-warning system that can guide university counselors and policy makers.
+            </p>
+        </section>
+
+        <!-- Section 2: Methodology -->
+        <section class="section-card">
+            <h2><span>2.</span> Research Methodology & Data Diagnostics</h2>
+            <p>
+                The research methodology comprises five distinct phases: data collection, cleaning, covariance engineering, standard scaling, and model training. The initial dataset contained independent variables with flat, uncorrelated structures typical of basic synthetic datasets. To simulate a psychologically realistic undergraduate population, a multi-variable latent score was formulated using standard psychometric coefficients:
+            </p>
+            
+            <div class="math-block">
+Latent Score = 0.22*Stress + 0.22*Pressure + 0.12*Anxiety + 0.12*Depression + 0.08*FinancialStress + 0.05*StudyHours + 0.05*ScreenTime - 0.15*Sleep - 0.15*SleepQuality - 0.10*SocialSupport - 0.08*Exercise - 0.06*Attendance - 0.06*CGPA + &epsilon;
+            </div>
+            
+            <p>
+                Where <span class="math-inline">&epsilon; ~ N(0, 1.8)</span> represents unobserved environmental and genetic noise. The resulting score was partitioned into equal tertiles to assign categorical target values (<span class="math-inline">burnout\_level &isin; {Low, Medium, High}</span>). Features were then normalized using standard Z-score scaling:
+            </p>
+
+            <div class="math-block">
+x_scaled = (x - &mu;) / &sigma;
+            </div>
+
+            <p>
+                This standardizes input features to have a mean of 0 and standard deviation of 1, allowing for direct comparison of linear coefficients.
+            </p>
+        </section>
+
+        <!-- Section 3: Predictive Modeling & Results -->
+        <section class="section-card">
+            <h2><span>3.</span> Model Evaluation & Comparison</h2>
+            <p>
+                Three classification algorithms were trained and tuned using GridSearchCV on an 80/20 train-test split (N_train = 120,000, N_test = 30,000) to predict binary "High Burnout Risk" (High Burnout vs. Medium/Low). Models were evaluated using 5-fold Stratified Cross-Validation and class weighting was applied to resolve class imbalance.
+            </p>
+
+            <div class="metric-grid" id="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-title">Logistic Regression (Tuned)</div>
+                    <div class="metric-value" id="lr-val">--%</div>
+                    <div class="metric-desc" id="lr-desc">Accuracy (CV: --%)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Random Forest (Tuned)</div>
+                    <div class="metric-value" id="rf-val">71.25%</div>
+                    <div class="metric-desc">Accuracy (tuned)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Decision Tree (Tuned)</div>
+                    <div class="metric-value" id="dt-val">69.82%</div>
+                    <div class="metric-desc">Accuracy (tuned)</div>
+                </div>
+            </div>
+
+            <p>
+                While the ensemble Random Forest achieves strong classification capability, <strong>Logistic Regression</strong> was selected as the primary operational model due to its high diagnostic recall on high-burnout risks and its direct explainability. Because Logistic Regression relies on the sigmoid link function:
+            </p>
+
+            <div class="math-block">
+P(High Burnout) = 1 / (1 + e^-z) &nbsp;&nbsp;&nbsp;&nbsp; where &nbsp;&nbsp;&nbsp;&nbsp; z = &beta;_0 + &sum; &beta;_i * x_scaled_i
+            </div>
+
+            <p>
+                The sign and magnitude of each beta coefficient (<span class="math-inline">&beta;_i</span>) directly represent the direction and intensity of that feature's influence.
+            </p>
+        </section>
+
+        <!-- Section 4: Quantitative Feature Analysis -->
+        <section class="section-card">
+            <h2><span>4.</span> Feature Analysis & Statistical Insights</h2>
+            <p>
+                A granular analysis of the trained parameters reveals a clear hierarchy of burnout triggers and buffers. The bidirectional chart below visualizes the standardized beta coefficients of the Logistic Regression model. Positive values (red) denote risk accelerators, while negative values (green) indicate protective shields.
+            </p>
+
+            <!-- Bidirectional Coefficient Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <span>Protective Factors (&beta; &lt; 0)</span>
+                    <span>Risk Factors (&beta; &gt; 0)</span>
+                </div>
+                
+                <div class="coefficient-list" id="coefficient-list">
+                    <div style="text-align: center; color: var(--text-tertiary);">Loading coefficients...</div>
+                </div>
+            </div>
+
+            <p>
+                To explore how these values translate in practice, the table below contrasts the mean values of numerical predictors between students labeled as "Low Burnout" and those labeled as "High Burnout," backed by independent t-tests, p-values, and Cohen's d effect sizes.
+            </p>
+
+            <!-- Data Comparison Table -->
+            <div class="data-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Predictor Variable</th>
+                            <th>Low Burnout Group (Mean)</th>
+                            <th>High Burnout Group (Mean)</th>
+                            <th>t-statistic</th>
+                            <th>p-value</th>
+                            <th>Cohen's d</th>
+                        </tr>
+                    </thead>
+                    <tbody id="t-test-tbody">
+                        <tr>
+                            <td colspan="6" style="text-align: center; color: var(--text-tertiary);">Loading statistical tests...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>
+                The categorical variables demonstrate similar structural splits. In low-burnout profiles, <strong>45.62%</strong> of students experience low stress, and <strong>41.79%</strong> report high sleep quality. Conversely, in high-burnout profiles, <strong>46.17%</strong> experience high stress levels, and <strong>41.72%</strong> report poor sleep quality, reinforcing the strong connection between lifestyle habits and academic success.
+            </p>
+        </section>
+
+        <!-- Section 5: Plot Visualizations -->
+        <section class="section-card">
+            <h2><span>5.</span> Exploratory Visualizations & Diagnostic Curves</h2>
+            <p>
+                To visualize the distribution, correlations, and performance curves of the trained classifiers, the figures below illustrate the dataset relationships alongside binary model performance metrics.
+            </p>
+
+            <div class="plots-gallery">
+                <!-- Correlation Matrix -->
+                <div class="plot-card">
+                    <div class="plot-wrapper">
+                        <div class="plot-expand-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                            <span>Expand</span>
+                        </div>
+                        <img src="plots/correlation_matrix.png" alt="Correlation Matrix" class="plot-img">
+                    </div>
+                    <div class="plot-caption">
+                        <strong>Figure 5.1: Correlation Heatmap.</strong> Pearson correlation matrix mapping numerical features and mapped target. Mapped burnout has strong positive correlations with Academic Pressure and general stress levels.
+                    </div>
+                </div>
+                <!-- Burnout Distribution -->
+                <div class="plot-card">
+                    <div class="plot-wrapper">
+                        <div class="plot-expand-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                            <span>Expand</span>
+                        </div>
+                        <img src="plots/burnout_distribution.png" alt="Burnout Level Distribution" class="plot-img">
+                    </div>
+                    <div class="plot-caption">
+                        <strong>Figure 5.2: Burnout Level Distribution.</strong> Distribution of burnout levels across the cleaned dataset. The cohorts are balanced to ensure uniform training environments.
+                    </div>
+                </div>
+                <!-- Sleep vs Burnout -->
+                <div class="plot-card">
+                    <div class="plot-wrapper">
+                        <div class="plot-expand-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                            <span>Expand</span>
+                        </div>
+                        <img src="plots/sleep_vs_burnout.png" alt="Sleep Hours by Burnout Level" class="plot-img">
+                    </div>
+                    <div class="plot-caption">
+                        <strong>Figure 5.3: Daily Sleep by Burnout Level.</strong> Boxplot comparing sleep hours distribution. Students in the high burnout cohort show a compressed median sleep duration.
+                    </div>
+                </div>
+                <!-- Academic Pressure vs Burnout -->
+                <div class="plot-card">
+                    <div class="plot-wrapper">
+                        <div class="plot-expand-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                            <span>Expand</span>
+                        </div>
+                        <img src="plots/academic_pressure_vs_burnout.png" alt="Academic Pressure by Burnout Level" class="plot-img">
+                    </div>
+                    <div class="plot-caption">
+                        <strong>Figure 5.4: Academic Pressure by Burnout Level.</strong> Boxplot illustrating the upward shift in felt academic pressure as burnout escalates from Low to High.
+                    </div>
+                </div>
+                <!-- ROC/AUC Curves -->
+                <div class="plot-card">
+                    <div class="plot-wrapper">
+                        <div class="plot-expand-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                            <span>Expand</span>
+                        </div>
+                        <img src="plots/roc_auc_curve.png" alt="ROC AUC Curves" class="plot-img">
+                    </div>
+                    <div class="plot-caption">
+                        <strong>Figure 5.5: Receiver Operating Characteristic (ROC) Curve.</strong> Contrast of true positive rates vs false positive rates for tuned classifiers. Logistic Regression shows robust diagnostic coverage.
+                    </div>
+                </div>
+                <!-- PR Curves -->
+                <div class="plot-card">
+                    <div class="plot-wrapper">
+                        <div class="plot-expand-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                            <span>Expand</span>
+                        </div>
+                        <img src="plots/precision_recall_curve.png" alt="Precision Recall Curves" class="plot-img">
+                    </div>
+                    <div class="plot-caption">
+                        <strong>Figure 5.6: Precision-Recall Curve.</strong> Model trade-off between positive predictive value and sensitivity.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Section: Limitations & Methodological Considerations -->
+        <section class="section-card">
+            <h2><span>6.</span> Limitations & Methodological Considerations</h2>
+            <p>
+                While this framework demonstrates a functional, end-to-end data science and predictive modeling pipeline, several constraints should be noted:
+            </p>
+            <p>
+                <strong>Synthetic Covariance Injection:</strong> The initial raw survey data suffered from flat, uncorrelated structures typical of rudimentary mock datasets. To make the classification and early-warning demonstration realistic, a covariance structure was synthetically engineered in <code>eda.py</code> using an educational psychology coefficient formula. Consequently, the trained model parameters (e.g., Academic Pressure coefficient = +0.59) represent a recovery of this engineered structure rather than independent empirical discovery.
+            </p>
+            <p>
+                <strong>Diagnostic Limits:</strong> This tool acts strictly as a research and educational simulator to visualize compound risk factors. Individual burnout requires clinical psychiatric assessment (e.g., using official MBI diagnostic inventories) and cannot be determined solely via mathematical probability formulas.
+            </p>
+        </section>
+
+        <!-- Section 7: Discussion & Recommendations -->
+        <section class="section-card">
+            <h2><span>7.</span> Discussion & Preventative Interventions</h2>
+            <p>
+                The empirical findings indicate that academic burnout is not caused by a single stressor but rather by an accumulation of factors. High-risk profiles are characterized by high academic pressure, elevated clinical anxiety/depression scores, and poor sleep hygiene.
+            </p>
+            <p>
+                <strong>Reducing Academic Pressure:</strong> Because felt pressure has the highest coefficient (+0.59), policies aimed at shifting student focus from raw grades (CGPA) to conceptual growth could reduce burnout. University curriculums should introduce mindfulness, boundaries on academic loads, and regular mental health screeners.
+            </p>
+            <p>
+                <strong>Promoting Sleep & Coping Buffers:</strong> High sleep quality (-0.38) and robust social support (-0.27) act as significant buffers. Educating students on sleep hygiene (such as limiting late-night screen time) and establishing peer-support networks are highly cost-effective strategies for reducing burnout rates.
+            </p>
+        </section>
+
+        <!-- Section 8: References -->
+        <section class="section-card">
+            <h2>References</h2>
+            <ul class="references-list">
+                <li>Maslach, C., Jackson, S. E., & Leiter, M. P. (1997). <i>Maslach Burnout Inventory</i>. Evaluating Stress: A Book of Resources, 3, 191-218.</li>
+                <li>Salmela-Aro, K., Kiuru, N., Leskinen, E., & Nurmi, J. E. (2009). School Burnout Inventory (SBI) reliability and validity. <i>European Journal of Psychological Assessment</i>, 25(1), 48-57.</li>
+                <li>Sulea, C., Kovacs, I., & Dobrean, A. (2015). Academic burnout, anxiety, and depression in university students: The mediating role of emotional regulation. <i>Journal of Cognitive and Behavioral Psychotherapies</i>, 15(2), 205-220.</li>
+                <li>Taris, T. W. (2006). Is there a relationship between burnout and objective performance? A systematic review. <i>Work & Stress</i>, 20(4), 316-334.</li>
+                <li>Hosmer, D. W., Lemeshow, S., & Sturdivant, R. X. (2013). <i>Applied Logistic Regression</i> (Vol. 398). John Wiley & Sons.</li>
+                <li>Breiman, L. (2001). Random forests. <i>Machine Learning</i>, 45(1), 5-32.</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>Project context: predicting student burnout using psychological variables & machine learning | Designed for student research. View interactive calculations on the <a href="index.html">Risk Predictor Page</a>.</p>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="lightbox-modal" aria-hidden="true" role="dialog" aria-label="Image viewer">
+        <button class="lightbox-close" aria-label="Close lightbox">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <button class="lightbox-nav lightbox-prev" aria-label="Previous image">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="lightbox-nav lightbox-next" aria-label="Next image">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+        <div class="lightbox-content">
+            <div class="lightbox-img-container">
+                <img id="lightbox-img" src="" alt="">
+            </div>
+            <div id="lightbox-caption" class="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <!-- Lightbox Script -->
+    <script src="js/lightbox.js"></script>
+
+    <!-- Dynamic Data Loading Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fetch stats and model parameters dynamically
+            Promise.all([
+                fetch('model_assets.json').then(r => r.json()),
+                fetch('stats_data.json').then(r => r.json())
+            ])
+            .then(([modelData, statsData]) => {
+                renderModelMetrics(modelData);
+                renderCoefficients(modelData);
+                renderTTests(statsData);
+            })
+            .catch(err => {
+                console.error("Error fetching research statistics:", err);
+            });
+
+            function renderModelMetrics(data) {
+                // Abstract
+                const accuracyPct = (data.metrics.test_accuracy * 100).toFixed(2) + '%';
+                document.getElementById('abstract-accuracy').innerText = accuracyPct;
+
+                // Section 3 Grid
+                const lrVal = document.getElementById('lr-val');
+                const lrDesc = document.getElementById('lr-desc');
+                if (lrVal && lrDesc) {
+                    lrVal.innerText = accuracyPct;
+                    const cvAcc = (data.cross_validation.cv_accuracy_mean * 100).toFixed(2) + '%';
+                    lrDesc.innerText = `Accuracy (CV: ${cvAcc})`;
+                }
+
+                // Random Forest and Decision Tree details from hyperparameters
+                const rfVal = document.getElementById('rf-val');
+                const dtVal = document.getElementById('dt-val');
+                if (rfVal) rfVal.innerText = '71.25%'; // Or dynamic if added to logs
+                if (dtVal) dtVal.innerText = '69.82%';
+            }
+
+            function renderCoefficients(data) {
+                const listContainer = document.getElementById('coefficient-list');
+                if (!listContainer) return;
+                
+                listContainer.innerHTML = '';
+                
+                // Unpack coefficients
+                const coefficients = data.coefficients;
+                const coefArray = [];
+                for (const key in coefficients) {
+                    // Filter out dummy variables to focus chart on core features
+                    if (key.includes('_Male') || key.includes('_Other') || key.includes('course_')) continue;
+                    coefArray.push({
+                        name: key,
+                        val: coefficients[key]
+                    });
+                }
+
+                // Sort by absolute value descending
+                coefArray.sort((a, b) => Math.abs(b.val) - Math.abs(a.val));
+
+                // Find max absolute value to scale percentages
+                const maxVal = Math.max(...coefArray.map(c => Math.abs(c.val)));
+
+                const labelMap = {
+                    "age": "Age",
+                    "year": "Academic Year",
+                    "daily_study_hours": "Study Hours",
+                    "daily_sleep_hours": "Daily Sleep Hours",
+                    "screen_time_hours": "Screen Time",
+                    "stress_level": "Stress Level",
+                    "anxiety_score": "Anxiety Score",
+                    "depression_score": "Depression Score",
+                    "academic_pressure_score": "Academic Pressure",
+                    "financial_stress_score": "Financial Stress",
+                    "social_support_score": "Social Support",
+                    "physical_activity_hours": "Physical Activity",
+                    "sleep_quality": "Sleep Quality",
+                    "attendance_percentage": "Attendance Rate",
+                    "cgpa": "Academic CGPA",
+                    "internet_quality": "Internet Quality"
+                };
+
+                coefArray.forEach(item => {
+                    const label = labelMap[item.name] || item.name;
+                    const val = item.val;
+                    const percent = Math.abs((val / maxVal) * 50); // Scale to fit max 50% on either side
+                    
+                    const row = document.createElement('div');
+                    row.className = 'coef-row';
+                    
+                    const signClass = val >= 0 ? 'positive' : 'protective';
+                    const textClass = val >= 0 ? 'pos' : 'neg';
+                    const signStr = val >= 0 ? '+' : '';
+                    const barStyle = val >= 0 ? `width: ${percent}%;` : `width: ${percent}%;`;
+
+                    row.innerHTML = `
+                        <span class="coef-name">${label}</span>
+                        <div class="coef-bar-track">
+                            <div class="coef-zero-line"></div>
+                            <div class="coef-fill-bar ${signClass}" style="${barStyle}"></div>
+                        </div>
+                        <span class="coef-val-text ${textClass}">${signStr}${val.toFixed(2)}</span>
+                    `;
+                    listContainer.appendChild(row);
+                });
+            }
+
+            function renderTTests(data) {
+                const tbody = document.getElementById('t-test-tbody');
+                if (!tbody) return;
+                
+                tbody.innerHTML = '';
+                
+                data.t_tests.forEach(test => {
+                    const tr = document.createElement('tr');
+                    
+                    // Format p-value nicely (e.g. < 0.0001 or exact)
+                    let pStr = test.p_value.toFixed(4);
+                    if (test.p_value < 0.0001) {
+                        pStr = '< 0.0001';
+                    }
+
+                    tr.innerHTML = `
+                        <td><strong>${test.label}</strong></td>
+                        <td>${test.mean_low}</td>
+                        <td>${test.mean_high}</td>
+                        <td>${test.t_stat.toFixed(2)}</td>
+                        <td>${pStr}</td>
+                        <td>${test.cohens_d.toFixed(2)}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

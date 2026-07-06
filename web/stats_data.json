@@ -1,0 +1,150 @@
+{
+    "t_tests": [
+        {
+            "feature": "academic_pressure_score",
+            "label": "Academic Pressure Score (0-10)",
+            "mean_low": 4.58,
+            "mean_high": 6.43,
+            "t_stat": -106.7643,
+            "p_value": 0.0,
+            "cohens_d": 0.6753
+        },
+        {
+            "feature": "anxiety_score",
+            "label": "Anxiety Score (0-10)",
+            "mean_low": 5.0,
+            "mean_high": 6.0,
+            "t_stat": -55.7217,
+            "p_value": 0.0,
+            "cohens_d": 0.3524
+        },
+        {
+            "feature": "depression_score",
+            "label": "Depression Score (0-10)",
+            "mean_low": 4.99,
+            "mean_high": 5.99,
+            "t_stat": -55.9718,
+            "p_value": 0.0,
+            "cohens_d": 0.354
+        },
+        {
+            "feature": "financial_stress_score",
+            "label": "Financial Stress Score (0-10)",
+            "mean_low": 5.16,
+            "mean_high": 5.85,
+            "t_stat": -38.1463,
+            "p_value": 0.0,
+            "cohens_d": 0.2413
+        },
+        {
+            "feature": "social_support_score",
+            "label": "Social Support Score (0-10)",
+            "mean_low": 5.93,
+            "mean_high": 5.1,
+            "t_stat": 46.2229,
+            "p_value": 0.0,
+            "cohens_d": -0.2924
+        },
+        {
+            "feature": "daily_sleep_hours",
+            "label": "Daily Sleep Duration (hrs)",
+            "mean_low": 6.66,
+            "mean_high": 6.34,
+            "t_stat": 34.719,
+            "p_value": 1.5070492417654865e-262,
+            "cohens_d": -0.2196
+        },
+        {
+            "feature": "cgpa",
+            "label": "Cumulative GPA (CGPA)",
+            "mean_low": 7.15,
+            "mean_high": 6.84,
+            "t_stat": 28.2365,
+            "p_value": 1.0165131393214238e-174,
+            "cohens_d": -0.1786
+        },
+        {
+            "feature": "attendance_percentage",
+            "label": "Attendance Rate (%)",
+            "mean_low": 76.24,
+            "mean_high": 73.7,
+            "t_stat": 27.9057,
+            "p_value": 1.0311329413400309e-170,
+            "cohens_d": -0.1765
+        },
+        {
+            "feature": "screen_time_hours",
+            "label": "Daily Screen Time (hrs)",
+            "mean_low": 6.24,
+            "mean_high": 6.76,
+            "t_stat": -25.5677,
+            "p_value": 1.0138118108419812e-143,
+            "cohens_d": 0.1617
+        },
+        {
+            "feature": "daily_study_hours",
+            "label": "Daily Study Duration (hrs)",
+            "mean_low": 5.33,
+            "mean_high": 5.68,
+            "t_stat": -21.8701,
+            "p_value": 8.87704991587429e-106,
+            "cohens_d": 0.1383
+        },
+        {
+            "feature": "physical_activity_hours",
+            "label": "Daily Physical Activity (hrs)",
+            "mean_low": 1.01,
+            "mean_high": 0.99,
+            "t_stat": 6.7941,
+            "p_value": 1.096149224284804e-11,
+            "cohens_d": -0.043
+        },
+        {
+            "feature": "age",
+            "label": "Age (yrs)",
+            "mean_low": 21.0,
+            "mean_high": 20.99,
+            "t_stat": 0.9884,
+            "p_value": 0.3229428827016483,
+            "cohens_d": -0.0063
+        }
+    ],
+    "chi_squared": [
+        {
+            "feature": "gender",
+            "label": "Gender",
+            "chi2_stat": 4.047,
+            "p_value": 0.3996798582544961
+        },
+        {
+            "feature": "course",
+            "label": "Course of Study",
+            "chi2_stat": 6.9586,
+            "p_value": 0.7293510058947683
+        },
+        {
+            "feature": "year",
+            "label": "Academic Year",
+            "chi2_stat": 6.0424,
+            "p_value": 0.418461723386798
+        },
+        {
+            "feature": "stress_level",
+            "label": "Stress Level",
+            "chi2_stat": 9129.9342,
+            "p_value": 0.0
+        },
+        {
+            "feature": "sleep_quality",
+            "label": "Sleep Quality",
+            "chi2_stat": 4146.2165,
+            "p_value": 0.0
+        },
+        {
+            "feature": "internet_quality",
+            "label": "Internet Connection Quality",
+            "chi2_stat": 2.5617,
+            "p_value": 0.6336304402290751
+        }
+    ]
+}

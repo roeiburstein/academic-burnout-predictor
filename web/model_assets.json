@@ -1,0 +1,215 @@
+{
+    "model_name": "Tuned Logistic Regression (Binary High Burnout)",
+    "intercept": -0.17572267602609404,
+    "coefficients": {
+        "age": -0.00977281014655597,
+        "year": -0.009924496827104104,
+        "daily_study_hours": 0.12172424583622779,
+        "daily_sleep_hours": -0.2035961810221008,
+        "screen_time_hours": 0.15335750805976536,
+        "stress_level": 0.5497696316272334,
+        "anxiety_score": 0.32371675970878033,
+        "depression_score": 0.31231116708933315,
+        "academic_pressure_score": 0.5896058398402604,
+        "financial_stress_score": 0.22597303767614094,
+        "social_support_score": -0.26974670607859763,
+        "physical_activity_hours": -0.03278075268875119,
+        "sleep_quality": -0.3802376151324621,
+        "attendance_percentage": -0.16806730856693378,
+        "cgpa": -0.17087531911138515,
+        "internet_quality": -0.009519379216699628,
+        "gender_Male": 0.01125201417937651,
+        "gender_Other": 0.0023529206144613053,
+        "course_BCA": 0.010944007206113934,
+        "course_BSc": 0.0015137479678029963,
+        "course_BTech": 0.005287065554318557,
+        "course_MBA": -0.005287593065214786,
+        "course_MCA": 0.007995563951259244
+    },
+    "scaling": {
+        "age": {
+            "mean": 20.996925,
+            "std": 2.5812849922152403
+        },
+        "year": {
+            "mean": 2.499325,
+            "std": 1.121271396396228
+        },
+        "daily_study_hours": {
+            "mean": 5.509474999999987,
+            "std": 2.5959360657974617
+        },
+        "daily_sleep_hours": {
+            "mean": 6.501217499999908,
+            "std": 1.4452200874008263
+        },
+        "screen_time_hours": {
+            "mean": 6.501088333333214,
+            "std": 3.1777918406021994
+        },
+        "stress_level": {
+            "mean": 2.0056166666666666,
+            "std": 0.8159055008940305
+        },
+        "anxiety_score": {
+            "mean": 5.490375,
+            "std": 2.8717574223303415
+        },
+        "depression_score": {
+            "mean": 5.493791666666667,
+            "std": 2.8681227524753052
+        },
+        "academic_pressure_score": {
+            "mean": 5.51335,
+            "std": 2.875321160757292
+        },
+        "financial_stress_score": {
+            "mean": 5.505483333333333,
+            "std": 2.866031507104893
+        },
+        "social_support_score": {
+            "mean": 5.5170916666666665,
+            "std": 2.8706836366274695
+        },
+        "physical_activity_hours": {
+            "mean": 0.9979708333333226,
+            "std": 0.5793736265565061
+        },
+        "sleep_quality": {
+            "mean": 2.00235,
+            "std": 0.8168197337847876
+        },
+        "attendance_percentage": {
+            "mean": 75.00685666666689,
+            "std": 14.416480499279936
+        },
+        "cgpa": {
+            "mean": 7.000478999999958,
+            "std": 1.7328110342906538
+        },
+        "internet_quality": {
+            "mean": 1.9986,
+            "std": 0.816097240937701
+        },
+        "gender_Male": {
+            "mean": 0.333725,
+            "std": 0.4715428128755333
+        },
+        "gender_Other": {
+            "mean": 0.333175,
+            "std": 0.4713485115863912
+        },
+        "course_BCA": {
+            "mean": 0.16655,
+            "std": 0.37257361353118734
+        },
+        "course_BSc": {
+            "mean": 0.16638333333333333,
+            "std": 0.37242438121350663
+        },
+        "course_BTech": {
+            "mean": 0.16620833333333335,
+            "std": 0.3722675425875408
+        },
+        "course_MBA": {
+            "mean": 0.16840833333333333,
+            "std": 0.37422849517005624
+        },
+        "course_MCA": {
+            "mean": 0.16570833333333335,
+            "std": 0.37181861383925485
+        }
+    },
+    "categorical_mappings": {
+        "year": {
+            "1st": 1,
+            "2nd": 2,
+            "3rd": 3,
+            "4th": 4
+        },
+        "stress_level": {
+            "Low": 1,
+            "Medium": 2,
+            "High": 3
+        },
+        "sleep_quality": {
+            "Poor": 1,
+            "Average": 2,
+            "Good": 3
+        },
+        "internet_quality": {
+            "Poor": 1,
+            "Average": 2,
+            "Good": 3
+        }
+    },
+    "metrics": {
+        "test_accuracy": 0.6951333333333334,
+        "test_f1_macro": 0.6781467544195783,
+        "test_precision_macro": 0.6769299328227202,
+        "test_recall_macro": 0.6958925681078683,
+        "test_roc_auc": 0.7662123544487842
+    },
+    "cross_validation": {
+        "cv_accuracy_mean": 0.6902333333333333,
+        "cv_accuracy_std": 0.0029637391923041877,
+        "cv_f1_macro_mean": 0.6734953695334346,
+        "cv_f1_macro_std": 0.0032746430762774555
+    },
+    "random_forest_importance": {
+        "age": 0.011570758874395223,
+        "year": 0.006516564991085439,
+        "daily_study_hours": 0.030933481359965834,
+        "daily_sleep_hours": 0.04261537453873025,
+        "screen_time_hours": 0.03692756976580997,
+        "stress_level": 0.19625605810693436,
+        "anxiety_score": 0.06937871282243054,
+        "depression_score": 0.06510263001728558,
+        "academic_pressure_score": 0.23443538497459024,
+        "financial_stress_score": 0.03812277449157634,
+        "social_support_score": 0.05032863951751233,
+        "physical_activity_hours": 0.0172722162305374,
+        "sleep_quality": 0.08997240545847948,
+        "attendance_percentage": 0.0431505093314942,
+        "cgpa": 0.04426512803283266,
+        "internet_quality": 0.005128500763818742,
+        "gender_Male": 0.0028916831011272315,
+        "gender_Other": 0.002702047608344184,
+        "course_BCA": 0.002395197386317957,
+        "course_BSc": 0.002581953706430713,
+        "course_BTech": 0.002595350708176272,
+        "course_MBA": 0.0023910724482351085,
+        "course_MCA": 0.002465985763889937
+    },
+    "permutation_importance": {
+        "academic_pressure_score": 0.0571,
+        "stress_level": 0.050780000000000006,
+        "sleep_quality": 0.01861333333333337,
+        "depression_score": 0.012453333333333339,
+        "anxiety_score": 0.012240000000000029,
+        "social_support_score": 0.009533333333333349,
+        "financial_stress_score": 0.003713333333333324,
+        "daily_sleep_hours": 0.0026200000000000225,
+        "screen_time_hours": 0.001546666666666674,
+        "cgpa": 0.0012466666666666848,
+        "attendance_percentage": 0.0011466666666666736,
+        "physical_activity_hours": 0.0006600000000000162,
+        "daily_study_hours": 0.0005333333333333412,
+        "gender_Male": 0.0003866666666666685,
+        "course_BCA": 0.0003400000000000292,
+        "year": 0.0002999999999999892,
+        "age": 0.0002666666666666595,
+        "course_BSc": 0.0002666666666666595,
+        "gender_Other": 8.666666666667933e-05,
+        "course_MCA": 7.333333333334747e-05,
+        "course_MBA": -0.00017333333333331425,
+        "internet_quality": -0.0002866666666666351,
+        "course_BTech": -0.0003666666666666485
+    },
+    "hyperparameters": {
+        "lr_C": 0.1,
+        "dt_max_depth": 8,
+        "rf_n_estimators": 100,
+        "rf_max_depth": 10
+    }
+}
