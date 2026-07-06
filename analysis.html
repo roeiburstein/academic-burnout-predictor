@@ -473,12 +473,220 @@
             justify-content: center;
             align-items: center;
             aspect-ratio: 1.5;
+            position: relative;
+            cursor: zoom-in;
+            outline: none;
+        }
+
+        .plot-wrapper:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .plot-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.03);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .plot-wrapper:hover::after {
+            opacity: 1;
         }
 
         .plot-img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .plot-wrapper:hover .plot-img {
+            transform: scale(1.03);
+        }
+
+        .plot-expand-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(10, 10, 12, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 0.35rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .plot-wrapper:hover .plot-expand-badge {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Lightbox Modal */
+        .lightbox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(10, 10, 12, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 90%;
+            max-height: 85%;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .lightbox-modal.active .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-img-container {
+            background: #fff;
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            max-height: 65vh;
+            border: 1px solid var(--border);
+        }
+
+        .lightbox-img-container img {
+            max-width: 100%;
+            max-height: calc(65vh - 24px);
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .lightbox-caption {
+            margin-top: 1.25rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.5;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Lightbox buttons */
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+            z-index: 2010;
+        }
+
+        .lightbox-close:hover {
+            background: var(--panel-hover);
+            border-color: var(--border-focus);
+            transform: scale(1.05);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--panel);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+            z-index: 2010;
+        }
+
+        .lightbox-nav:hover {
+            background: var(--panel-hover);
+            border-color: var(--border-focus);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .lightbox-prev {
+            left: 2rem;
+        }
+
+        .lightbox-next {
+            right: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+            }
+            .lightbox-prev {
+                left: 1rem;
+            }
+            .lightbox-next {
+                right: 1rem;
+            }
+            .lightbox-close {
+                top: 1rem;
+                right: 1rem;
+            }
+            .lightbox-caption {
+                font-size: 0.85rem;
+                padding: 0.8rem 1.2rem;
+            }
         }
 
         .plot-caption {
@@ -865,6 +1073,10 @@ P(High Burnout) = 1 / (1 + e^-z) &nbsp;&nbsp;&nbsp;&nbsp; where &nbsp;&nbsp;&nbs
                 <!-- Correlation Matrix -->
                 <div class="plot-card">
                     <div class="plot-wrapper">
+                        <div class="plot-expand-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                            <span>Expand</span>
+                        </div>
                         <img src="plots/correlation_matrix.png" alt="Correlation Matrix" class="plot-img">
                     </div>
                     <div class="plot-caption">
@@ -874,6 +1086,10 @@ P(High Burnout) = 1 / (1 + e^-z) &nbsp;&nbsp;&nbsp;&nbsp; where &nbsp;&nbsp;&nbs
                 <!-- Burnout Distribution -->
                 <div class="plot-card">
                     <div class="plot-wrapper">
+                        <div class="plot-expand-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                            <span>Expand</span>
+                        </div>
                         <img src="plots/burnout_distribution.png" alt="Burnout Level Distribution" class="plot-img">
                     </div>
                     <div class="plot-caption">
@@ -883,6 +1099,10 @@ P(High Burnout) = 1 / (1 + e^-z) &nbsp;&nbsp;&nbsp;&nbsp; where &nbsp;&nbsp;&nbs
                 <!-- Sleep vs Burnout -->
                 <div class="plot-card">
                     <div class="plot-wrapper">
+                        <div class="plot-expand-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                            <span>Expand</span>
+                        </div>
                         <img src="plots/sleep_vs_burnout.png" alt="Sleep Hours by Burnout Level" class="plot-img">
                     </div>
                     <div class="plot-caption">
@@ -892,6 +1112,10 @@ P(High Burnout) = 1 / (1 + e^-z) &nbsp;&nbsp;&nbsp;&nbsp; where &nbsp;&nbsp;&nbs
                 <!-- Academic Pressure vs Burnout -->
                 <div class="plot-card">
                     <div class="plot-wrapper">
+                        <div class="plot-expand-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                            <span>Expand</span>
+                        </div>
                         <img src="plots/academic_pressure_vs_burnout.png" alt="Academic Pressure by Burnout Level" class="plot-img">
                     </div>
                     <div class="plot-caption">
@@ -931,6 +1155,156 @@ P(High Burnout) = 1 / (1 + e^-z) &nbsp;&nbsp;&nbsp;&nbsp; where &nbsp;&nbsp;&nbs
     <footer>
         <p>Project context: predicting student burnout using psychological variables & machine learning | Designed for student research. View interactive calculations on the <a href="index.html">Risk Predictor Page</a>.</p>
     </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="lightbox-modal" aria-hidden="true" role="dialog" aria-label="Image viewer">
+        <button class="lightbox-close" aria-label="Close lightbox">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <button class="lightbox-nav lightbox-prev" aria-label="Previous image">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="lightbox-nav lightbox-next" aria-label="Next image">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+        <div class="lightbox-content">
+            <div class="lightbox-img-container">
+                <img id="lightbox-img" src="" alt="">
+            </div>
+            <div id="lightbox-caption" class="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <!-- Lightbox Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const plotWrappers = Array.from(document.querySelectorAll('.plot-wrapper'));
+            const lightboxModal = document.getElementById('lightbox-modal');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const closeBtn = document.querySelector('.lightbox-close');
+            const prevBtn = document.querySelector('.lightbox-prev');
+            const nextBtn = document.querySelector('.lightbox-next');
+            
+            // Store image source, alt, and caption text for each plot
+            const plotsData = plotWrappers.map(wrapper => {
+                const img = wrapper.querySelector('.plot-img');
+                const card = wrapper.closest('.plot-card');
+                const caption = card.querySelector('.plot-caption').innerHTML;
+                return {
+                    src: img.src,
+                    alt: img.alt,
+                    caption: caption
+                };
+            });
+            
+            let currentIndex = 0;
+            let lastActiveElement = null;
+            
+            function openLightbox(index) {
+                lastActiveElement = document.activeElement;
+                currentIndex = index;
+                updateLightboxContent();
+                lightboxModal.classList.add('active');
+                lightboxModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                closeBtn.focus();
+            }
+            
+            function closeLightbox() {
+                lightboxModal.classList.remove('active');
+                lightboxModal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+                if (lastActiveElement) {
+                    lastActiveElement.focus();
+                }
+            }
+            
+            function updateLightboxContent() {
+                const data = plotsData[currentIndex];
+                lightboxImg.src = data.src;
+                lightboxImg.alt = data.alt;
+                lightboxCaption.innerHTML = data.caption;
+            }
+            
+            function showNext() {
+                currentIndex = (currentIndex + 1) % plotsData.length;
+                updateLightboxContent();
+            }
+            
+            function showPrev() {
+                currentIndex = (currentIndex - 1 + plotsData.length) % plotsData.length;
+                updateLightboxContent();
+            }
+            
+            plotWrappers.forEach((wrapper, index) => {
+                // Add tab index for keyboard accessibility
+                wrapper.setAttribute('tabindex', '0');
+                wrapper.setAttribute('role', 'button');
+                wrapper.setAttribute('aria-label', `Expand figure: ${wrapper.querySelector('.plot-img').alt}`);
+                
+                wrapper.addEventListener('click', () => {
+                    openLightbox(index);
+                });
+                
+                wrapper.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openLightbox(index);
+                    }
+                });
+            });
+            
+            closeBtn.addEventListener('click', closeLightbox);
+            
+            // Close on overlay click (but not on image or caption click)
+            lightboxModal.addEventListener('click', (e) => {
+                if (e.target === lightboxModal) {
+                    closeLightbox();
+                }
+            });
+            
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showPrev();
+            });
+            
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showNext();
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (!lightboxModal.classList.contains('active')) return;
+                
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowRight') {
+                    showNext();
+                } else if (e.key === 'ArrowLeft') {
+                    showPrev();
+                } else if (e.key === 'Tab') {
+                    // Keep focus trapped inside lightbox
+                    const focusableElements = Array.from(lightboxModal.querySelectorAll('button, [tabindex="0"]'));
+                    const firstElement = focusableElements[0];
+                    const lastElement = focusableElements[focusableElements.length - 1];
+                    
+                    if (e.shiftKey) { // Shift + Tab
+                        if (document.activeElement === firstElement) {
+                            lastElement.focus();
+                            e.preventDefault();
+                        }
+                    } else { // Tab
+                        if (document.activeElement === lastElement) {
+                            firstElement.focus();
+                            e.preventDefault();
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
