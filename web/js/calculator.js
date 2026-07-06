@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function init() {
         try {
             console.log("Loading model assets dynamically...");
-            const response = await fetch('model_assets.json');
+            const response = await fetch(`model_assets.json?v=${Date.now()}`);
             if (!response.ok) {
                 throw new Error(`Failed to retrieve model weights. Status: ${response.status}`);
             }
@@ -197,9 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const contributions = [];
 
             for (const feature in modelAssets.coefficients) {
-                const rawValue = values[feature];
-                if (rawValue === undefined) continue;
-
                 const scaling = modelAssets.scaling[feature];
                 if (!scaling) continue;
 
@@ -207,8 +204,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const std = scaling.std;
                 const coef = modelAssets.coefficients[feature];
 
-                // Safeguard division by zero standard deviations
-                const scaledValue = std > 0 ? (rawValue - mean) / std : 0.0;
+                const rawValue = values[feature];
+                let scaledValue = 0.0; // Default fallback to scaler mean (z-score of 0.0)
+                
+                if (rawValue !== undefined && std > 0) {
+                    scaledValue = (rawValue - mean) / std;
+                } else if (rawValue === undefined) {
+                    console.warn(`Feature ${feature} missing from DOM inputs. Falling back to mean value.`);
+                }
+
                 const contribution = coef * scaledValue;
                 
                 z += contribution;

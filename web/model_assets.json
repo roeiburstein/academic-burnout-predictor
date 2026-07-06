@@ -1,5 +1,5 @@
 {
-    "model_name": "Tuned Logistic Regression (Binary High Burnout)",
+    "model_name": "Tuned Logistic Regression (Strict Pipeline)",
     "intercept": -0.17572267602609404,
     "coefficients": {
         "age": -0.00977281014655597,
@@ -152,9 +152,9 @@
     },
     "cross_validation": {
         "cv_accuracy_mean": 0.6902333333333333,
-        "cv_accuracy_std": 0.0029637391923041877,
-        "cv_f1_macro_mean": 0.6734953695334346,
-        "cv_f1_macro_std": 0.0032746430762774555
+        "cv_accuracy_std": 0.002957875551435136,
+        "cv_f1_macro_mean": 0.6734953891710607,
+        "cv_f1_macro_std": 0.003273285309470153
     },
     "random_forest_importance": {
         "age": 0.011570758874395223,
