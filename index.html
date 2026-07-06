@@ -468,9 +468,81 @@
         footer a:hover {
             text-decoration: underline;
         }
+
+        /* Navigation Bar */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto 2.5rem auto;
+            padding: 0.8rem 1.5rem;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            box-shadow: var(--inner-shadow), var(--shadow);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .nav-logo {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: opacity 0.2s;
+        }
+
+        .nav-logo:hover {
+            opacity: 0.9;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .nav-link {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: var(--panel-hover);
+        }
+
+        .nav-link.active {
+            color: var(--text-primary);
+            background: var(--primary-alpha);
+            border-color: var(--primary);
+        }
     </style>
 </head>
 <body>
+
+    <nav class="top-nav">
+        <a href="index.html" class="nav-logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--primary)"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5.47 12.5L3 11.16v2.33l2.47 1.35V12.5zm13.06 0v2.34l2.47-1.35v-2.33l-2.47 1.34zM12 18.5c-3.31 0-6-2.69-6-6 0-.85.18-1.65.5-2.38L12 13.5l5.5-3.38c.32.73.5 1.53.5 2.38 0 3.31-2.69 6-6 6z"/></svg>
+            <span>Burnout Research</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active">Risk Predictor</a>
+            <a href="analysis.html" class="nav-link">Research & Insights</a>
+        </div>
+    </nav>
 
     <header>
         <h1>Academic Burnout Risk Estimator</h1>
