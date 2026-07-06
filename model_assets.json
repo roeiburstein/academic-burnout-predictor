@@ -1,0 +1,147 @@
+{
+    "model_name": "Logistic Regression (Binary High Burnout)",
+    "intercept": -0.8685766001473708,
+    "coefficients": {
+        "age": -0.01016604320352971,
+        "year": -0.008432118136714463,
+        "daily_study_hours": 0.12105258114006733,
+        "daily_sleep_hours": -0.20267834353548236,
+        "screen_time_hours": 0.15223540964556645,
+        "stress_level": 0.547540827894275,
+        "anxiety_score": 0.32153101983977034,
+        "depression_score": 0.31099566427850356,
+        "academic_pressure_score": 0.5868576022809061,
+        "financial_stress_score": 0.22483348863117877,
+        "social_support_score": -0.2666322610507666,
+        "physical_activity_hours": -0.03207619431105604,
+        "sleep_quality": -0.3784890311906184,
+        "attendance_percentage": -0.16854063860049007,
+        "cgpa": -0.17181319316172533,
+        "internet_quality": -0.009239871979964235,
+        "gender_Male": 0.011074448015862128,
+        "gender_Other": 0.0033268914971280802,
+        "course_BCA": 0.01215969597344121,
+        "course_BSc": 0.0014868647191455902,
+        "course_BTech": 0.007029420406631509,
+        "course_MBA": -0.005141951837375421,
+        "course_MCA": 0.009537573651947464
+    },
+    "scaling": {
+        "age": {
+            "mean": 20.996925,
+            "std": 2.5812849922152403
+        },
+        "year": {
+            "mean": 2.499325,
+            "std": 1.121271396396228
+        },
+        "daily_study_hours": {
+            "mean": 5.509474999999987,
+            "std": 2.5959360657974617
+        },
+        "daily_sleep_hours": {
+            "mean": 6.501217499999908,
+            "std": 1.4452200874008263
+        },
+        "screen_time_hours": {
+            "mean": 6.501088333333214,
+            "std": 3.1777918406021994
+        },
+        "stress_level": {
+            "mean": 2.0056166666666666,
+            "std": 0.8159055008940305
+        },
+        "anxiety_score": {
+            "mean": 5.490375,
+            "std": 2.8717574223303415
+        },
+        "depression_score": {
+            "mean": 5.493791666666667,
+            "std": 2.8681227524753052
+        },
+        "academic_pressure_score": {
+            "mean": 5.51335,
+            "std": 2.875321160757292
+        },
+        "financial_stress_score": {
+            "mean": 5.505483333333333,
+            "std": 2.866031507104893
+        },
+        "social_support_score": {
+            "mean": 5.5170916666666665,
+            "std": 2.8706836366274695
+        },
+        "physical_activity_hours": {
+            "mean": 0.9979708333333226,
+            "std": 0.5793736265565061
+        },
+        "sleep_quality": {
+            "mean": 2.00235,
+            "std": 0.8168197337847876
+        },
+        "attendance_percentage": {
+            "mean": 75.00685666666689,
+            "std": 14.416480499279936
+        },
+        "cgpa": {
+            "mean": 7.000478999999958,
+            "std": 1.7328110342906538
+        },
+        "internet_quality": {
+            "mean": 1.9986,
+            "std": 0.816097240937701
+        },
+        "gender_Male": {
+            "mean": 0.333725,
+            "std": 0.4715428128755333
+        },
+        "gender_Other": {
+            "mean": 0.333175,
+            "std": 0.4713485115863912
+        },
+        "course_BCA": {
+            "mean": 0.16655,
+            "std": 0.37257361353118734
+        },
+        "course_BSc": {
+            "mean": 0.16638333333333333,
+            "std": 0.37242438121350663
+        },
+        "course_BTech": {
+            "mean": 0.16620833333333335,
+            "std": 0.3722675425875408
+        },
+        "course_MBA": {
+            "mean": 0.16840833333333333,
+            "std": 0.37422849517005624
+        },
+        "course_MCA": {
+            "mean": 0.16570833333333335,
+            "std": 0.37181861383925485
+        }
+    },
+    "categorical_mappings": {
+        "year": {
+            "1st": 1,
+            "2nd": 2,
+            "3rd": 3,
+            "4th": 4
+        },
+        "stress_level": {
+            "Low": 1,
+            "Medium": 2,
+            "High": 3
+        },
+        "sleep_quality": {
+            "Poor": 1,
+            "Average": 2,
+            "Good": 3
+        },
+        "internet_quality": {
+            "Poor": 1,
+            "Average": 2,
+            "Good": 3
+        }
+    },
+    "accuracy": 0.7322666666666666
+}

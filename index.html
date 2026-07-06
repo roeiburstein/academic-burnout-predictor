@@ -1,0 +1,1014 @@
+<!-- impeccable-disable overused-font: Instrument Sans and Instrument Serif are custom selected to align with academic and educational software design systems -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Burnout Risk Estimator - Machine Learning Demonstration</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: oklch(0.1 0.01 250);
+            --panel: oklch(0.15 0.015 250);
+            --panel-hover: oklch(0.17 0.015 250);
+            --border: oklch(0.24 0.015 250);
+            --border-focus: oklch(0.42 0.08 250);
+            --text-primary: oklch(0.96 0.005 250);
+            --text-secondary: oklch(0.78 0.01 250);
+            --text-tertiary: oklch(0.66 0.01 250);
+            
+            --primary: oklch(0.58 0.16 260);
+            --primary-hover: oklch(0.52 0.17 260);
+            --primary-alpha: oklch(0.58 0.16 260 / 0.15);
+            
+            --success: oklch(0.68 0.14 142);
+            --success-alpha: oklch(0.68 0.14 142 / 0.15);
+            
+            --warning: oklch(0.74 0.15 75);
+            --warning-alpha: oklch(0.74 0.15 75 / 0.15);
+            
+            --danger: oklch(0.58 0.17 25);
+            --danger-alpha: oklch(0.58 0.17 25 / 0.15);
+            
+            --shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.4);
+            --inner-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 3rem 1.5rem;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            line-height: 1.1;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            font-weight: 400;
+            max-width: 65ch;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .glass-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        /* Form Styling */
+        h2 {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slider-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            color: var(--primary);
+            padding: 0.1rem 0.4rem;
+            font-size: 0.8rem;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, var(--primary) var(--value-percent, 50%), var(--border) var(--value-percent, 50%));
+            border-radius: 3px;
+            outline: none;
+            transition: background 0.1s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--text-primary);
+            border: 2px solid var(--primary);
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            background: var(--primary);
+            border-color: var(--text-primary);
+        }
+
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: var(--bg);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23b2bbc6' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 2.25rem 0.75rem 0.75rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: 'Instrument Sans', sans-serif;
+            width: 100%;
+        }
+
+        select:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 2px var(--primary-alpha);
+        }
+
+        /* Result Panel Styling */
+        .sticky-panel {
+            position: sticky;
+            top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .result-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3rem 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--success), var(--warning), var(--danger));
+        }
+
+        /* Circular Progress */
+        .progress-circle {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-circle svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .progress-circle circle {
+            fill: none;
+            stroke-width: 10;
+        }
+
+        .progress-bg {
+            stroke: oklch(0.2 0.01 250);
+        }
+
+        .progress-bar {
+            stroke: var(--primary);
+            stroke-dasharray: 440;
+            stroke-dashoffset: 440;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.3s;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .percentage {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .percentage-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.25rem;
+        }
+
+        /* Badge */
+        .badge {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.35rem 1.1rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.25rem;
+            display: inline-block;
+        }
+
+        .badge-low {
+            background: var(--success-alpha);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .badge-medium {
+            background: var(--warning-alpha);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .badge-high {
+            background: var(--danger-alpha);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 oklch(0.58 0.17 25 / 0.4); }
+            70% { box-shadow: 0 0 0 10px oklch(0.58 0.17 25 / 0); }
+            100% { box-shadow: 0 0 0 0 oklch(0.58 0.17 25 / 0); }
+        }
+
+        .description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Explainable AI Factors */
+        .explainability-section {
+            width: 100%;
+            text-align: left;
+            border-top: 1px solid var(--border);
+            margin-top: 1.75rem;
+            padding-top: 1.75rem;
+        }
+
+        .explainability-section h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-tertiary);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .factor-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .factor-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            background: oklch(0.13 0.01 250);
+            border: 1px solid var(--border);
+        }
+
+        .factor-name {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 500;
+        }
+
+        .factor-risk {
+            color: oklch(0.75 0.1 25);
+        }
+        .factor-risk svg { fill: var(--danger); }
+
+        .factor-protective {
+            color: oklch(0.78 0.1 142);
+        }
+        .factor-protective svg { fill: var(--success); }
+
+        .factor-weight {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+        }
+
+        /* Ethical Notice */
+        .ethical-notice {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            box-shadow: var(--shadow);
+        }
+
+        .ethical-notice strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Buttons styling */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+        .btn-secondary:hover {
+            background: var(--panel-hover);
+            color: var(--text-primary);
+            border-color: var(--text-secondary);
+        }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 3rem 0 1.5rem 0;
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            max-width: 1200px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Academic Burnout Risk Estimator</h1>
+        <p>A machine learning-driven web application to demonstrate behavioral & psychological risk factors</p>
+    </header>
+
+    <div class="container">
+        <!-- Input Form -->
+        <main class="glass-panel">
+            <form id="burnoutForm">
+                
+                <!-- Section 1: Academic Profile -->
+                <div class="form-section">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary)"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5.47 12.5L3 11.16v2.33l2.47 1.35V12.5zm13.06 0v2.34l2.47-1.35v-2.33l-2.47 1.34zM12 18.5c-3.31 0-6-2.69-6-6 0-.85.18-1.65.5-2.38L12 13.5l5.5-3.38c.32.73.5 1.53.5 2.38 0 3.31-2.69 6-6 6z"/></svg>
+                        Academic Profile
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="course">Course</label>
+                            <select id="course">
+                                <option value="BBA">BBA (Bachelor of Business Admin)</option>
+                                <option value="BCA">BCA (Bachelor of Computer Applications)</option>
+                                <option value="BSc" selected>BSc (Bachelor of Science)</option>
+                                <option value="BTech">BTech (Bachelor of Technology)</option>
+                                <option value="MBA">MBA (Master of Business Admin)</option>
+                                <option value="MCA">MCA (Master of Computer Applications)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Year of Study</label>
+                            <select id="year">
+                                <option value="1st">1st Year</option>
+                                <option value="2nd" selected>2nd Year</option>
+                                <option value="3rd">3rd Year</option>
+                                <option value="4th">4th Year</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cgpa">
+                                Cumulative GPA (CGPA)
+                                <span class="slider-val" id="cgpa_val">7.0</span>
+                            </label>
+                            <input type="range" id="cgpa" min="4.0" max="10.0" step="0.1" value="7.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="attendance_percentage">
+                                Attendance Rate
+                                <span class="slider-val" id="attendance_percentage_val">75%</span>
+                            </label>
+                            <input type="range" id="attendance_percentage" min="50" max="100" step="1" value="75">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="daily_study_hours">
+                                Daily Study Hours
+                                <span class="slider-val" id="daily_study_hours_val">5.5 hrs</span>
+                            </label>
+                            <input type="range" id="daily_study_hours" min="1.0" max="10.0" step="0.1" value="5.5">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Mental Health & Support -->
+                <div class="form-section">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.25z"/></svg>
+                        Psychological & Support Variables
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="stress_level">General Stress Level</label>
+                            <select id="stress_level">
+                                <option value="Low">Low Stress</option>
+                                <option value="Medium" selected>Medium Stress</option>
+                                <option value="High">High Stress</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="social_support_score">
+                                Social Support Score (Friends/Family)
+                                <span class="slider-val" id="social_support_score_val">5 / 10</span>
+                            </label>
+                            <input type="range" id="social_support_score" min="0" max="10" step="1" value="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="anxiety_score">
+                                Anxiety Score (PHQ-based)
+                                <span class="slider-val" id="anxiety_score_val">5 / 10</span>
+                            </label>
+                            <input type="range" id="anxiety_score" min="0" max="10" step="1" value="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="depression_score">
+                                Depression Score (PHQ-based)
+                                <span class="slider-val" id="depression_score_val">5 / 10</span>
+                            </label>
+                            <input type="range" id="depression_score" min="0" max="10" step="1" value="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="academic_pressure_score">
+                                Academic Pressure (Felt Pressure)
+                                <span class="slider-val" id="academic_pressure_score_val">5 / 10</span>
+                            </label>
+                            <input type="range" id="academic_pressure_score" min="0" max="10" step="1" value="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="financial_stress_score">
+                                Financial Stress Score
+                                <span class="slider-val" id="financial_stress_score_val">5 / 10</span>
+                            </label>
+                            <input type="range" id="financial_stress_score" min="0" max="10" step="1" value="5">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Physical Health & Habits -->
+                <div class="form-section">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        Lifestyle & Environment
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="daily_sleep_hours">
+                                Daily Sleep Hours
+                                <span class="slider-val" id="daily_sleep_hours_val">6.5 hrs</span>
+                            </label>
+                            <input type="range" id="daily_sleep_hours" min="1.0" max="10.0" step="0.1" value="6.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="sleep_quality">Sleep Quality</label>
+                            <select id="sleep_quality">
+                                <option value="Poor">Poor Sleep Quality</option>
+                                <option value="Average" selected>Average Sleep Quality</option>
+                                <option value="Good">Good Sleep Quality</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="screen_time_hours">
+                                Daily Screen Time
+                                <span class="slider-val" id="screen_time_hours_val">6.5 hrs</span>
+                            </label>
+                            <input type="range" id="screen_time_hours" min="0.0" max="12.0" step="0.1" value="6.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="physical_activity_hours">
+                                Daily Physical Activity
+                                <span class="slider-val" id="physical_activity_hours_val">1.0 hrs</span>
+                            </label>
+                            <input type="range" id="physical_activity_hours" min="0.0" max="3.0" step="0.1" value="1.0">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="internet_quality">Home Internet Quality</label>
+                            <select id="internet_quality">
+                                <option value="Poor">Poor Internet Connection</option>
+                                <option value="Average" selected>Average Internet Connection</option>
+                                <option value="Good">Good Internet Connection</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Demographics -->
+                <div class="form-section">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        Demographic Information
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="age">
+                                Age
+                                <span class="slider-val" id="age_val">21 yrs</span>
+                            </label>
+                            <input type="range" id="age" min="17" max="25" step="1" value="21">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender">
+                                <option value="Female">Female</option>
+                                <option value="Male" selected>Male</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions: Reset Button -->
+                <div class="form-actions">
+                    <button type="button" id="resetBtn" class="btn-secondary">Reset to Default Profile</button>
+                </div>
+
+            </form>
+        </main>
+
+        <!-- Prediction Dashboard -->
+        <aside class="sticky-panel">
+            <div class="glass-panel result-card">
+                <h2>Risk Probability</h2>
+                
+                <div class="progress-circle">
+                    <svg>
+                        <circle class="progress-bg" cx="80" cy="80" r="70"></circle>
+                        <circle class="progress-bar" id="progressBar" cx="80" cy="80" r="70"></circle>
+                    </svg>
+                    <div class="progress-text">
+                        <div class="percentage" id="riskPct">0%</div>
+                        <div class="percentage-label" id="riskLabel">Loading...</div>
+                    </div>
+                </div>
+
+                <div class="badge" id="riskBadge">Loading...</div>
+                
+                <p class="description" id="riskDesc">
+                    Select values on the left to calculate your predicted risk of academic burnout.
+                </p>
+
+                <!-- Explainability Section -->
+                <div class="explainability-section">
+                    <h3>Top Feature Impacts</h3>
+                    <div class="factor-list" id="factorList">
+                        <!-- Dynamically filled -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ethical Disclosure Notice -->
+            <div class="ethical-notice">
+                <strong>⚠️ Ethical Demonstration & Disclaimer</strong>
+                This tool is a research and educational demonstration showcasing a trained binary Logistic Regression classifier. It estimates the likelihood that a student's profile falls into the "High Burnout" category based on synthetic population-level statistical distributions. <strong>This is not a diagnostic tool and does not replace psychiatric or professional mental health evaluations.</strong>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        <p>Project context: predicting student burnout using psychological variables & machine learning | Designed for student research. View analysis plots in the <code>plots/</code> directory.</p>
+    </footer>
+
+    <!-- JavaScript Risk Calculator Logic -->
+    <script>
+        // Model assets exported directly from train.py
+        const modelAssets = {
+            "intercept": -0.8685766001473708,
+            "coefficients": {
+                "age": -0.01016604320352971,
+                "year": -0.008432118136714463,
+                "daily_study_hours": 0.12105258114006733,
+                "daily_sleep_hours": -0.20267834353548236,
+                "screen_time_hours": 0.15223540964556645,
+                "stress_level": 0.547540827894275,
+                "anxiety_score": 0.32153101983977034,
+                "depression_score": 0.31099566427850356,
+                "academic_pressure_score": 0.5868576022809061,
+                "financial_stress_score": 0.22483348863117877,
+                "social_support_score": -0.2666322610507666,
+                "physical_activity_hours": -0.03207619431105604,
+                "sleep_quality": -0.3784890311906184,
+                "attendance_percentage": -0.16854063860049007,
+                "cgpa": -0.17181319316172533,
+                "internet_quality": -0.009239871979964235,
+                "gender_Male": 0.011074448015862128,
+                "gender_Other": 0.0033268914971280802,
+                "course_BCA": 0.01215969597344121,
+                "course_BSc": 0.0014868647191455902,
+                "course_BTech": 0.007029420406631509,
+                "course_MBA": -0.005141951837375421,
+                "course_MCA": 0.009537573651947464
+            },
+            "scaling": {
+                "age": { "mean": 20.996925, "std": 2.5812849922152403 },
+                "year": { "mean": 2.499325, "std": 1.121271396396228 },
+                "daily_study_hours": { "mean": 5.509474999999987, "std": 2.5959360657974617 },
+                "daily_sleep_hours": { "mean": 6.501217499999908, "std": 1.4452200874008263 },
+                "screen_time_hours": { "mean": 6.501088333333214, "std": 3.1777918406021994 },
+                "stress_level": { "mean": 2.0056166666666666, "std": 0.8159055008940305 },
+                "anxiety_score": { "mean": 5.490375, "std": 2.8717574223303415 },
+                "depression_score": { "mean": 5.493791666666667, "std": 2.8681227524753052 },
+                "academic_pressure_score": { "mean": 5.51335, "std": 2.875321160757292 },
+                "financial_stress_score": { "mean": 5.505483333333333, "std": 2.866031507104893 },
+                "social_support_score": { "mean": 5.5170916666666665, "std": 2.8706836366274695 },
+                "physical_activity_hours": { "mean": 0.9979708333333226, "std": 0.5793736265565061 },
+                "sleep_quality": { "mean": 2.00235, "std": 0.8168197337847876 },
+                "attendance_percentage": { "mean": 75.00685666666689, "std": 14.416480499279936 },
+                "cgpa": { "mean": 7.000478999999958, "std": 1.7328110342906538 },
+                "internet_quality": { "mean": 1.9986, "std": 0.816097240937701 },
+                "gender_Male": { "mean": 0.333725, "std": 0.4715428128755333 },
+                "gender_Other": { "mean": 0.333175, "std": 0.4713485115863912 },
+                "course_BCA": { "mean": 0.16655, "std": 0.37257361353118734 },
+                "course_BSc": { "mean": 0.16638333333333333, "std": 0.37242438121350663 },
+                "course_BTech": { "mean": 0.16620833333333335, "std": 0.3722675425875408 },
+                "course_MBA": { "mean": 0.16840833333333333, "std": 0.37422849517005624 },
+                "course_MCA": { "mean": 0.16570833333333335, "std": 0.37181861383925485 }
+            },
+            "categorical_mappings": {
+                "year": { "1st": 1, "2nd": 2, "3rd": 3, "4th": 4 },
+                "stress_level": { "Low": 1, "Medium": 2, "High": 3 },
+                "sleep_quality": { "Poor": 1, "Average": 2, "Good": 3 },
+                "internet_quality": { "Poor": 1, "Average": 2, "Good": 3 }
+            }
+        };
+
+        // UI element text mappings for feature importance presentation
+        const featureLabels = {
+            "age": "Age",
+            "year": "Academic Year",
+            "daily_study_hours": "Study Hours",
+            "daily_sleep_hours": "Daily Sleep",
+            "screen_time_hours": "Screen Time",
+            "stress_level": "Stress Level",
+            "anxiety_score": "Anxiety Score",
+            "depression_score": "Depression Score",
+            "academic_pressure_score": "Academic Pressure",
+            "financial_stress_score": "Financial Stress",
+            "social_support_score": "Social Support",
+            "physical_activity_hours": "Exercise Duration",
+            "sleep_quality": "Sleep Quality",
+            "attendance_percentage": "Attendance Rate",
+            "cgpa": "Academic CGPA",
+            "internet_quality": "Internet Quality",
+            "gender_Male": "Male Gender",
+            "gender_Other": "Non-binary Gender",
+            "course_BCA": "BCA Course",
+            "course_BSc": "BSc Course",
+            "course_BTech": "BTech Course",
+            "course_MBA": "MBA Course",
+            "course_MCA": "MCA Course"
+        };
+
+        // Helper function to update custom slider track style
+        function updateSliderTrack(slider) {
+            if (slider.type !== 'range') return;
+            const min = parseFloat(slider.min) || 0;
+            const max = parseFloat(slider.max) || 100;
+            const val = parseFloat(slider.value) || 0;
+            const percent = ((val - min) / (max - min)) * 100;
+            slider.style.setProperty('--value-percent', `${percent}%`);
+        }
+
+        // Add event listeners to input elements to update on change
+        const formInputs = document.querySelectorAll('#burnoutForm input, #burnoutForm select');
+        
+        // Initialize range inputs slider tracks
+        formInputs.forEach(input => {
+            if (input.type === 'range') {
+                updateSliderTrack(input);
+            }
+        });
+
+        formInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                // Update numerical indicator badges in real-time
+                const labelVal = document.getElementById(input.id + '_val');
+                if (labelVal) {
+                    let suffix = '';
+                    if (input.id.includes('hours') || input.id === 'daily_sleep_hours') suffix = ' hrs';
+                    else if (input.id.includes('percentage')) suffix = '%';
+                    else if (input.id.includes('score')) suffix = ' / 10';
+                    else if (input.id === 'age') suffix = ' yrs';
+                    labelVal.innerText = input.value + suffix;
+                }
+                
+                if (input.type === 'range') {
+                    updateSliderTrack(input);
+                }
+                
+                calculateRisk();
+            });
+        });
+
+        // Add event listener for Reset Button
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            document.getElementById('burnoutForm').reset();
+            formInputs.forEach(input => {
+                const labelVal = document.getElementById(input.id + '_val');
+                if (labelVal) {
+                    let suffix = '';
+                    if (input.id.includes('hours') || input.id === 'daily_sleep_hours') suffix = ' hrs';
+                    else if (input.id.includes('percentage')) suffix = '%';
+                    else if (input.id.includes('score')) suffix = ' / 10';
+                    else if (input.id === 'age') suffix = ' yrs';
+                    labelVal.innerText = input.value + suffix;
+                }
+                if (input.type === 'range') {
+                    updateSliderTrack(input);
+                }
+            });
+            calculateRisk();
+        });
+
+        // Predict risk probability using model parameters
+        function calculateRisk() {
+            // 1. Collect inputs
+            const values = {};
+            
+            // Numerical inputs
+            values['age'] = parseFloat(document.getElementById('age').value);
+            values['daily_study_hours'] = parseFloat(document.getElementById('daily_study_hours').value);
+            values['daily_sleep_hours'] = parseFloat(document.getElementById('daily_sleep_hours').value);
+            values['screen_time_hours'] = parseFloat(document.getElementById('screen_time_hours').value);
+            values['anxiety_score'] = parseFloat(document.getElementById('anxiety_score').value);
+            values['depression_score'] = parseFloat(document.getElementById('depression_score').value);
+            values['academic_pressure_score'] = parseFloat(document.getElementById('academic_pressure_score').value);
+            values['financial_stress_score'] = parseFloat(document.getElementById('financial_stress_score').value);
+            values['social_support_score'] = parseFloat(document.getElementById('social_support_score').value);
+            values['physical_activity_hours'] = parseFloat(document.getElementById('physical_activity_hours').value);
+            values['attendance_percentage'] = parseFloat(document.getElementById('attendance_percentage').value);
+            values['cgpa'] = parseFloat(document.getElementById('cgpa').value);
+
+            // Categorical Mapped inputs
+            values['year'] = modelAssets.categorical_mappings.year[document.getElementById('year').value];
+            values['stress_level'] = modelAssets.categorical_mappings.stress_level[document.getElementById('stress_level').value];
+            values['sleep_quality'] = modelAssets.categorical_mappings.sleep_quality[document.getElementById('sleep_quality').value];
+            values['internet_quality'] = modelAssets.categorical_mappings.internet_quality[document.getElementById('internet_quality').value];
+
+            // Categorical One-Hot inputs (gender & course)
+            const genderVal = document.getElementById('gender').value;
+            values['gender_Male'] = (genderVal === 'Male') ? 1.0 : 0.0;
+            values['gender_Other'] = (genderVal === 'Other') ? 1.0 : 0.0;
+
+            const courseVal = document.getElementById('course').value;
+            values['course_BCA'] = (courseVal === 'BCA') ? 1.0 : 0.0;
+            values['course_BSc'] = (courseVal === 'BSc') ? 1.0 : 0.0;
+            values['course_BTech'] = (courseVal === 'BTech') ? 1.0 : 0.0;
+            values['course_MBA'] = (courseVal === 'MBA') ? 1.0 : 0.0;
+            values['course_MCA'] = (courseVal === 'MCA') ? 1.0 : 0.0;
+            // BBA maps to 0.0 on all of the dummies (first class dropped)
+
+            // 2. Perform Standard Scaling & Calculate linear sum (z)
+            let z = modelAssets.intercept;
+            const contributions = []; // Store contributions of each scaled feature: coefficient * scaled_value
+
+            for (const feature in modelAssets.coefficients) {
+                const rawValue = values[feature];
+                const mean = modelAssets.scaling[feature].mean;
+                const std = modelAssets.scaling[feature].std;
+                const coef = modelAssets.coefficients[feature];
+                
+                // Standardize
+                const scaledValue = (rawValue - mean) / std;
+                const contribution = coef * scaledValue;
+                
+                z += contribution;
+                
+                contributions.push({
+                    name: feature,
+                    label: featureLabels[feature] || feature,
+                    val: contribution,
+                    coef: coef,
+                    scaledVal: scaledValue
+                });
+            }
+
+            // 3. Sigmoid prediction function: p = 1 / (1 + e^-z)
+            const probability = 1 / (1 + Math.exp(-z));
+            const probabilityPct = Math.round(probability * 100);
+
+            // 4. Update circular UI indicator
+            const progressBar = document.getElementById('progressBar');
+            const circumference = 2 * Math.PI * 70; // r = 70
+            const offset = circumference - (probability * circumference);
+            progressBar.style.strokeDashoffset = offset;
+            
+            document.getElementById('riskPct').innerText = probabilityPct + '%';
+
+            // 5. Update Badge, Labels & Colors
+            const badge = document.getElementById('riskBadge');
+            const label = document.getElementById('riskLabel');
+            const desc = document.getElementById('riskDesc');
+            
+            if (probability < 0.33) {
+                badge.className = 'badge badge-low';
+                badge.innerText = 'Low Risk';
+                label.innerText = 'Low Risk';
+                progressBar.style.stroke = 'var(--success)';
+                desc.innerHTML = 'This profile reflects a <strong>low vulnerability</strong> to academic burnout. Maintaining healthy lifestyle habits, academic boundaries, and consistent rest will keep burnout risks low.';
+            } else if (probability < 0.66) {
+                badge.className = 'badge badge-medium';
+                badge.innerText = 'Moderate Risk';
+                label.innerText = 'Mod. Risk';
+                progressBar.style.stroke = 'var(--warning)';
+                desc.innerHTML = 'This profile reflects a <strong>moderate risk</strong> of academic burnout. Consider optimizing sleep patterns, limiting screen time, and adjusting study loads before symptoms escalate.';
+            } else {
+                badge.className = 'badge badge-high';
+                badge.innerText = 'High Risk';
+                label.innerText = 'High Risk';
+                progressBar.style.stroke = 'var(--danger)';
+                desc.innerHTML = 'This profile indicates a <strong>high vulnerability</strong> to academic burnout. We strongly recommend reducing academic pressure, boosting social support networks, and prioritizing quality sleep.';
+            }
+
+            // 6. Feature Explainability (Contributions)
+            // Sort by absolute contribution values
+            contributions.sort((a, b) => b.val - a.val);
+
+            // Get top 2 risk factors (positive contributions)
+            const riskFactors = contributions.filter(c => c.val > 0).slice(0, 2);
+            // Get top 2 protective factors (most negative contributions)
+            const protectiveFactors = contributions.filter(c => c.val < 0).slice(-2).reverse();
+
+            const factorList = document.getElementById('factorList');
+            factorList.innerHTML = '';
+
+            // Render top risk factors
+            riskFactors.forEach(factor => {
+                const item = document.createElement('div');
+                item.className = 'factor-item';
+                item.innerHTML = `
+                    <span class="factor-name factor-risk">
+                        <svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        ${factor.label} (Elevated)
+                    </span>
+                    <span class="factor-weight">+${Math.abs(factor.val).toFixed(2)}</span>
+                `;
+                factorList.appendChild(item);
+            });
+
+            // Render top protective factors
+            protectiveFactors.forEach(factor => {
+                const item = document.createElement('div');
+                item.className = 'factor-item';
+                item.innerHTML = `
+                    <span class="factor-name factor-protective">
+                        <svg width="12" height="12" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                        ${factor.label} (Favorable)
+                    </span>
+                    <span class="factor-weight">-${Math.abs(factor.val).toFixed(2)}</span>
+                `;
+                factorList.appendChild(item);
+            });
+            
+            if (riskFactors.length === 0 && protectiveFactors.length === 0) {
+                factorList.innerHTML = '<div style="font-size:0.8rem;color:var(--text-secondary)">No dominant factors.</div>';
+            }
+        }
+
+        // Run initial calculation on page load
+        window.onload = function() {
+            calculateRisk();
+        };
+    </script>
+</body>
+</html>
